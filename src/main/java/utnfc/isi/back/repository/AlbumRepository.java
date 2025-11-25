@@ -9,4 +9,5 @@ public interface AlbumRepository {
     void nuevo(Album album);
     List<Album> listarTodos();
     Album buscarPorId(Integer id);
+    Album getOrCreate(String title, String artistName);
 }

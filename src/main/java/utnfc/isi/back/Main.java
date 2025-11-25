@@ -32,8 +32,8 @@ public class Main {
 
         // 2. Inicializar Services
         TrackService trackService = new TrackService(em);
-        AlbumService albumService = new AlbumService(em);
         ArtistaService artistaService = new ArtistaService(em);
+        AlbumService albumService = new AlbumService(em, artistaService);
         InvoiceService invoiceService = new InvoiceService(em);
 
         MediaTypeService mediaTypeService = new MediaTypeService(em);
@@ -88,12 +88,19 @@ public class Main {
 
                 // === PARSEO DE DATOS ===
                 // albumes y sus datos, playlists y sus datos o invoices y sus datos
-                //Name,AlbumId,MediaTypeId,GenreId,Composer,Milliseconds,Bytes,UnitPrice
+                //Name,Album,MediaType,Genre,Composer,Milliseconds,Bytes,UnitPrice
                 String name = campos[0].trim();
-                Album album = albums.get(campos[1].trim());
-                MediaType mediaType = mediaTypeService.getOrCreate(campos[2].trim());
-                Genero genero = generoService.getOrCreate(campos[3].trim());
-                String compositor = campos[4].trim();
+                String albumTitle = campos[1].trim();
+                String mediaTypeName = campos[2].trim();
+                String genreName = campos[3].trim();
+                String artistName = campos[4].trim();
+
+                MediaType mediaType = mediaTypeService.getOrCreate(mediaTypeName);
+                Genero genero = generoService.getOrCreate(genreName);
+
+                Album album = albumService.getOrCreate(albumTitle, artistName);
+                Artista artista = artistaService.getOrCreate(artistName);
+
                 Integer milliseconds = Integer.parseInt(campos[5].trim());
                 Integer bytes = Integer.parseInt(campos[6].trim());
                 BigDecimal unitPrice = new BigDecimal(campos[7].trim());
@@ -107,7 +114,7 @@ public class Main {
                 track.setAlbum(album);
                 track.setMediaType(mediaType);
                 track.setGenre(genero);
-                track.setComposer(compositor);
+                track.setComposer(artista.getName());
                 track.setMilliseconds(milliseconds);
                 track.setBytes(bytes);
                 track.setUnitPrice(unitPrice);
@@ -139,6 +146,20 @@ public class Main {
             List<MediaType> mediaTypesCargados = mediaTypeService.listarTodos();
             System.out.printf("\n========== MediaTypes cargados: ==========%n");
             System.out.printf("Total: %d%n", mediaTypesCargados.size());
+
+            System.out.println("## 1. Top 5 Tracks con Más Bytes");
+            List<Track> topBytesTracks = trackService.findTop5ByBytes();
+
+            for (Track t : topBytesTracks) {
+                System.out.printf("  - %s (%s) - Bytes: %d\n", t.getName(), t.getAlbum().getTitle(), t.getBytes());
+            }
+
+            System.out.println("\n## 2. Tracks con Precio por Unidad Mayor a $1.00");
+            List<Track> expensiveTracks = trackService.findTracksByUnitPriceGreaterThan(1.00);
+
+            for (Track t : expensiveTracks) {
+                System.out.printf("  - %s (Precio: %.2f)\n", t.getName(), t.getUnitPrice());
+            }
 
             em.close();
             emf.close();

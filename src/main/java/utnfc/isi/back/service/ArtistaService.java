@@ -33,18 +33,17 @@ public class ArtistaService implements ArtistRepository {
         return entityManager.find(Artista.class, id);
     }
 
-    @Override
     public Artista getOrCreate(String name) {
-        List<Artista> resultados = entityManager.createQuery(
-                        "SELECT a FROM Artista a WHERE a.name =: name", Artista.class)
-                .setParameter("name", name)
-                .getResultList();
-        if (!resultados.isEmpty()) {
-            return resultados.get(0);
+        try {
+            return entityManager.createQuery(
+                            "SELECT a FROM Artista a WHERE a.name = :name", Artista.class)
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            Artista nuevo = new Artista();
+            nuevo.setName(name);
+            entityManager.persist(nuevo);
+            return nuevo;
         }
-
-        Artista artista = new Artista(name);
-        entityManager.persist(artista);
-        return artista;
     }
 }
