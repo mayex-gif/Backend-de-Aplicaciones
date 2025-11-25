@@ -1,0 +1,11 @@
+Name,Album,MediaType,Genre,Composer,Milliseconds,Bytes,UnitPrice
+"Fast Car", "Tracy Chapman", "Protected AAC audio file", "Rock", "Tracy Chapman", 222333, 8000000, 1.29
+"Smells Like Teen Spirit", "Nevermind", "MPEG audio file", "Grunge", "Kurt Cobain", 301257, 10240000, 0.99
+"Come Away With Me", "Come Away With Me", "MPEG audio file", "Jazz", "Norah Jones", 231460, 7500000, 0.99
+"Bohemian Rhapsody", "A Night at the Opera", "MPEG audio file", "Classic Rock", "Freddie Mercury", 354320, 12000000, 1.29
+"Crazy Little Thing Called Love", "The Game", "MPEG audio file", "Rock", "Freddie Mercury", 160000, 5500000, 0.99
+"Shape of My Heart", "Ten Summoner's Tales", "AAC audio file", "Pop", "Sting", 261760, 7800000, 1.29
+"Back in Black", "Back in Black", "MPEG audio file", "Hard Rock", "Angus Young, Malcolm Young, Brian Johnson", 255280, 8500000, 0.99
+"Hallelujah", "Various Artists", "Protected AAC audio file", "Vocal", "Leonard Cohen", 270400, 9200000, 1.29
+"Yesterday", "Help!", "MPEG audio file", "Pop", "Lennon/McCartney", 124320, 4000000, 0.99
+"Hotel California", "Hotel California", "MPEG audio file", "Rock", "Don Felder, Don Henley, Glenn Frey", 391850, 15000000, 1.29
